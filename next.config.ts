@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
 
 // CSP tuned for a static marketing site: Next/Motion need inline scripts+styles,
 // next/font self-hosts (font-src 'self'), the grain texture is a data: SVG,
@@ -48,3 +49,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Enables getCloudflareContext() during `next dev`; no-op in production builds.
+initOpenNextCloudflareForDev();

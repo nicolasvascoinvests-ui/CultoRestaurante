@@ -40,6 +40,11 @@ yarn-error.log*
 /.claude/
 /frameworks/
 
+# cloudflare / opennext build output
+/.open-next/
+/.wrangler/
+cloudflare-env.d.ts
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
