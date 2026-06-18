@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ============================================================
+   EL CULTO COCINA — Design System (Tailwind v4, CSS-first)
+   Cream + ink backbone · festive Mexican accents, used with restraint
+   ============================================================ */
+
+@theme {
+  /* — Brand palette (authoritative) — */
+  --color-lino: #f0e6dc; /* primary canvas */
+  --color-lino-soft: #f6efe7; /* lighter cream */
+  --color-lino-deep: #e7d9c8; /* layered cream */
+  --color-tinta: #1c1b19; /* ink — text, footers */
+  --color-tinta-soft: #2b2925;
+  --color-verde: #0e6e2e; /* primary accent */
+  --color-verde-deep: #0a5323;
+  --color-rojo: #9a2b1e; /* CTAs, prices */
+  --color-rojo-deep: #7c2016;
+  --color-barro: #c2702f; /* warmth */
+  --color-maiz: #efc25e; /* highlights, hover */
+
+  /* — Typography — */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-poppins), system-ui, -apple-system, sans-serif;
+  --font-wordmark: var(--font-cinzel), var(--font-playfair), serif;
+
+  /* — Motion — */
+  --ease-culto: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* — Shadows — */
+  --shadow-plate: 0 24px 60px -22px rgba(28, 27, 25, 0.45);
+  --shadow-card: 0 18px 44px -20px rgba(28, 27, 25, 0.4);
+}
+
+:root {
+  --background: var(--color-lino);
+  --foreground: var(--color-tinta);
+  --nav-h: 4.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-lino);
+  color: var(--color-tinta);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-maiz);
+  color: var(--color-tinta);
+}
+
+/* Accessible focus ring across the site */
+:focus-visible {
+  outline: 2px solid var(--color-verde);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* ---------- Reusable atmosphere & motif utilities ---------- */
+
+/* Fine paper grain — adds depth over flat cream */
+/* Static film grain. No blend mode + no transform animation, so the compositor
+   keeps it on its own layer and it never repaints on scroll. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+/* Eyebrow — spaced small label echoing the wordmark */
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+}
+
+.wordmark {
+  font-family: var(--font-wordmark);
+  letter-spacing: 0.16em;
+  font-weight: 600;
+}
+
+/* Decorative divider — small line · diamond · line, à la the style guide */
+.rule-mex {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-barro);
+}
+.rule-mex::before,
+.rule-mex::after {
+  content: "";
+  width: clamp(28px, 8vw, 64px);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+/* Underline flourish for links */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s var(--ease-culto);
+}
+.link-underline:hover {
+  background-size: 100% 1.5px;
+}
+
+/* Ambient keyframes (auto-disabled under reduced motion below) */
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.4deg); }
+  50% { transform: rotate(2.4deg); }
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes hue-drift {
+  0%, 100% { opacity: 0.5; transform: translate3d(0, 0, 0) scale(1); }
+  50% { opacity: 0.75; transform: translate3d(2%, -2%, 0) scale(1.08); }
+}
+@keyframes scroll-cue {
+  0% { transform: translateY(0); opacity: 0; }
+  35% { opacity: 1; }
+  70% { transform: translateY(9px); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.animate-floaty { animation: floaty 7s var(--ease-culto) infinite; }
+.animate-sway { animation: sway 4.5s ease-in-out infinite; transform-origin: 50% 0%; }
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
